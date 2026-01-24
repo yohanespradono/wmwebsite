@@ -1,0 +1,136 @@
+name: WeMonitor Website
+description: Deploy WeMonitor Website to dev.atulatech.com / Docker Swarm
+
+app:
+  name: WeMonitor Website
+  version: 1.0.0
+
+ssh:
+  host: dev.atulatech.com
+  port: 10022
+  user: atula
+  key: ~/.ssh/id_rsa
+
+env:
+  APPNAME: dasadmin
+  TARGET_DIR: ${{ DEPLOYMENT_ENVIRONMENT == 'staging' && '$HOME/wemonitor/website' || DEPLOYMENT_ENVIRONMENT == 'production' && '$HOME/wemonitor/website' || '$HOME/wemonitor/website' }}
+  REPO_URL: git@github.com:yohanespradono/wmwebsite.git
+  DOCKER_REPOSITORY: yohanesatula/wmwebsite
+
+jobs:
+  Build:
+    steps:
+      - name: Git Clone
+        run: git clone -b $BRANCH $REPO_URL $TARGET_DIR/releases/$TIMESTAMP
+      - name: Docker Build
+        run: cd $TARGET_DIR/releases/$TIMESTAMP && docker build --build-arg ENVIRONMENT=$DEPLOYMENT_ENVIRONMENT -t $DOCKER_REPOSITORY:$BRANCH .
+      - name: Login to Docker Hub
+        run: |
+          # only for staging and production
+          if [ "$DEPLOYMENT_ENVIRONMENT" = "staging" ] || [ "$DEPLOYMENT_ENVIRONMENT" = "production" ] || [ "$BRANCH" = "develop" ] || [ "$BRANCH" = "main" ]; then
+            echo "Logging in to Docker Hub..."
+            docker login -u "yohanesatula" -p "Atula@2025!"
+          else
+            echo "Skipping Docker login for dev environment."
+            exit 0
+          fi
+      - name: Docker Push
+        run: |
+          # only for staging and production
+          if [ "$DEPLOYMENT_ENVIRONMENT" = "staging" ] || [ "$DEPLOYMENT_ENVIRONMENT" = "production" ] || [ "$BRANCH" = "develop" ] || [ "$BRANCH" = "main" ]; then
+            echo "Pushing Docker image to repository..."
+            docker push $DOCKER_REPOSITORY:$BRANCH
+          else
+            echo "Skipping Docker push for dev environment."
+            exit 0
+          fi
+  Deploy:
+    steps:
+      - name: Deploy to Docker Swarm
+        run: |
+          cd $TARGET_DIR/releases/$TIMESTAMP
+          if [ "$DEPLOYMENT_ENVIRONMENT" = "production" ]; then
+            export STACK_NAME=$APPNAME-production
+            export COMPOSE_FILE=docker-compose.production.yml
+          elif [ "$DEPLOYMENT_ENVIRONMENT" = "staging" ]; then
+            export STACK_NAME=$APPNAME-staging
+            export COMPOSE_FILE=docker-compose.staging.yml
+          else
+            export STACK_NAME=$APPNAME-dev
+            export COMPOSE_FILE=docker-compose.dev.yml
+          fi
+
+          export DOCKER_REPOSITORY=$DOCKER_REPOSITORY
+          export BRANCH=$BRANCH
+          export COMMIT_HASH=$(git rev-parse --short=7 HEAD)
+
+          docker stack deploy -c $COMPOSE_FILE $STACK_NAME --detach=false
+
+          # 🚀 Force Swarm service to restart so updates take effect
+          nohup docker service update --force $(docker service ls --filter name=$STACK_NAME --format "{{.Name}}") > /dev/null 2>&1 &
+
+          sudo chown -R 1654:1654 /home/atula/das/backend/shared/*
+
+  Complete:
+    steps:
+      - name: Delete Docker Hub Tag
+        run: |
+          # only for main and develop branches
+          if [ "$DEPLOYMENT_ENVIRONMENT" = "staging" ] || [ "$DEPLOYMENT_ENVIRONMENT" = "production" ] || [ "$BRANCH" = "develop" ] || [ "$BRANCH" = "main" ]; then
+          echo "Deleting Docker image tag from repository..."
+
+          # Get JWT token
+          TOKEN=$(curl -s -X POST https://hub.docker.com/v2/users/login/ \
+          -H "Content-Type: application/json" \
+          -d '{"username": "yohanesatula", "password": "Atula@2025!"}' | jq -r .token)
+
+          # Delete tag using JWT
+          curl -s -X DELETE "https://hub.docker.com/v2/repositories/$DOCKER_REPOSITORY/tags/$BRANCH/" \
+          -H "Authorization: JWT $TOKEN"
+
+          else
+            echo "Skipping Docker tag deletion for dev environment."
+            exit 0
+          fi
+      - name: Clean up stopped containers
+        run: docker container prune --force
+
+      - name: Clean up unused volumes
+        run: docker volume prune --force
+
+      - name: Clean up unused networks
+        run: docker network prune --force
+
+      - name: Clean up unused images
+        run: docker image prune --all --force
+
+      - name: Clean up system (includes containers, networks, images)
+        run: docker system prune --force
+
+      - name: Clear /var/lib/docker/tmp
+        run: |
+          if [ -d "/var/lib/docker/tmp" ]; then
+            sudo rm -rf /var/lib/docker/tmp/*
+          fi
+      - name: Cleaning up releases
+        run: |
+          #cd $TARGET_DIR
+          #DIRECTORIES_TO_DELETE=""
+          #for dir in */; do
+          #  dir_name="${dir%/}"
+          #  if [ "$dir_name" != "$TIMESTAMP" ] && [ -d "$dir_name" ]; then
+          #    DIRECTORIES_TO_DELETE+="\"$dir_name\" "
+          #    echo "- $dir_name"
+          #  fi
+          #done
+          #eval rm -rf $DIRECTORIES_TO_DELETE
+      - name: Summary
+        run: |
+          echo "Deployment completed successfully!"
+          echo "  Deployed to: $TARGET_DIR/releases/$TIMESTAMP"
+          echo "  Current branch: $BRANCH"
+
+teams:
+  webhook:
+    url:
+      - https://atulatech76.webhook.office.com/webhookb2/7286139a-693b-4029-831f-5eb9f3d72d3b@65dafce5-46fd-41e7-a3ca-ebf5f31c2199/IncomingWebhook/699bf94e54364e15a2d54bafbf08b5b3/7897c460-fc60-4185-93da-5cdd5813a3fa/V2Xr-L9t23zuZdCM4MPUebGORiSIY75WOJ8qr6iuRwIUo1
