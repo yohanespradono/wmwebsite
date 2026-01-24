@@ -1,0 +1,56 @@
+﻿version: '3.8'
+
+services:
+  myservice:
+    image: ${DOCKER_REPOSITORY}:${BRANCH}
+    restart: always
+    ports:
+      - "5130:5173"
+    networks:
+      - app-network
+    environment:
+      - ENVIRONMENT=production
+      - ASPNETCORE_ENVIRONMENT=Production
+      - BRANCH=${BRANCH}
+      - COMMIT_HASH=${COMMIT_HASH}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:5173/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+        monitor: 60s
+        max_failure_ratio: 0.3
+        order: start-first
+      rollback_config:
+        parallelism: 1
+        delay: 0s
+        failure_action: pause
+        monitor: 60s
+        order: stop-first
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      resources:
+        reservations:
+          cpus: '0.15'
+          memory: 256M
+        limits:
+          cpus: '0.5'
+          memory: 512M
+      placement:
+        constraints:
+          - node.role == manager
+
+networks:
+  app-network:
+    driver: overlay
+    attachable: true

@@ -12,7 +12,7 @@ ssh:
   key: ~/.ssh/id_rsa
 
 env:
-  APPNAME: dasadmin
+  APPNAME: wmwebsite
   TARGET_DIR: ${{ DEPLOYMENT_ENVIRONMENT == 'staging' && '$HOME/wemonitor/website' || DEPLOYMENT_ENVIRONMENT == 'production' && '$HOME/wemonitor/website' || '$HOME/wemonitor/website' }}
   REPO_URL: git@github.com:yohanespradono/wmwebsite.git
   DOCKER_REPOSITORY: yohanesatula/wmwebsite
@@ -69,7 +69,7 @@ jobs:
           # 🚀 Force Swarm service to restart so updates take effect
           nohup docker service update --force $(docker service ls --filter name=$STACK_NAME --format "{{.Name}}") > /dev/null 2>&1 &
 
-          sudo chown -R 1654:1654 /home/atula/das/backend/shared/*
+          sudo chown -R 1654:1654 /home/atula/wemonitor/website/shared/*
 
   Complete:
     steps:
