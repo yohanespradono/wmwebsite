@@ -5,7 +5,7 @@ services:
     image: ${DOCKER_REPOSITORY}:${BRANCH}
     restart: always
     ports:
-      - "5130:5173"
+      - "5130:3000"
     networks:
       - app-network
     environment:
@@ -14,7 +14,7 @@ services:
       - BRANCH=${BRANCH}
       - COMMIT_HASH=${COMMIT_HASH}
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:5173/"]
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:3000/"]
       interval: 30s
       timeout: 10s
       retries: 3

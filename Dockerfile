@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # Healthcheck (point to /health or /)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s \
-  CMD curl --fail --silent http://127.0.0.1:5173/ || exit 1
+  CMD curl --fail --silent http://127.0.0.1:3000/ || exit 1
 
 # Start the app
 CMD ["node", "build"]
