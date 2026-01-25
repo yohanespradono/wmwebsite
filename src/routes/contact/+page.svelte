@@ -10,7 +10,7 @@
 	}
 </script>
 
-<div class="min-h-screen bg-[#0D1117] text-white pt-32 pb-20 px-6">
+<div class="min-h-screen bg-[#0D1117] text-white pt-8 md:pt-16 pb-20 px-6">
 	<div class="max-w-7xl mx-auto">
 
 		<div class="grid lg:grid-cols-2 gap-20 items-start">

@@ -2,7 +2,7 @@
 	export let data;
 </script>
 
-<div class="min-h-screen bg-[#0D1117] pt-32 pb-20 px-6">
+<div class="min-h-screen bg-[#0D1117] pt-8 md:pt-16 pb-20 px-6">
 	<div class="max-w-7xl mx-auto">
 
 		<div class="max-w-2xl mb-16">

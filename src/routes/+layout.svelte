@@ -21,6 +21,15 @@
 	});
 </script>
 
+<svelte:head>
+	<title>WeMonitor | Lightweight Server Monitoring</title>
+	<meta name="description" content="Monitoring CPU, RAM, Docker & Database cuma pake 1 file binary Rust. Irit RAM, gak ribet!" />
+
+	<meta property="og:title" content="WeMonitor - Monitoring Kenceng ala Rust" />
+	<meta property="og:description" content="Monitor server VPS lu pake agen Rust yang irit RAM." />
+	<meta property="og:image" content="/og-image.png" />
+</svelte:head>
+
 <div class="min-h-screen bg-[#0D1117] text-[#E6EDF3] font-sans selection:bg-cyan-500/30">
 	<nav bind:this={navElement} class="sticky top-0 z-50 border-b border-white/10 bg-[#0D1117]/80 backdrop-blur-md">
 		<div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">

@@ -1,6 +1,9 @@
+<script>
+</script>
+
 <div class="min-h-screen bg-[#0D1117] text-white">
 
-	<section class="max-w-4xl mx-auto px-6 pt-32 pb-20 flex flex-col items-center text-center">
+	<section class="max-w-4xl mx-auto px-6 pt-8 md:pt-16 pb-20 flex flex-col items-center text-center">
 		<div class="inline-block px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-mono mb-8 uppercase tracking-widest">
 			Our Origin Story
 		</div>
