@@ -1,4 +1,4 @@
-<section class="relative pt-32 pb-20 overflow-hidden text-center">
+<section class="relative pt-8 md:pt-16 pb-20 overflow-hidden text-center">
 	<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyan-500/10 blur-[120px] rounded-full"></div>
 
 	<div class="max-w-7xl mx-auto px-6 relative z-10">
