@@ -1,18 +1,21 @@
+// src/routes/news/+page.ts
 import type { Post } from '$lib/types';
 
+export const prerender = true; // Paksa halaman ini jadi statis
+
 export async function load() {
-	// Tambahkan casting 'as Record<string, Post>' di sini
+	// import.meta.glob tetap bekerja di +page.ts karena dihandle oleh Vite
 	const postFiles = import.meta.glob('/src/lib/posts/*.md', { eager: true }) as Record<
 		string,
-		Post
+		{ metadata: Post['metadata'] }
 	>;
 
 	const posts = Object.entries(postFiles).map(([path, post]) => {
-		// Now TypeScript knows that posts has metadata
 		const fileName = path.split('/').pop()?.replace('.md', '') || '';
 
 		return {
-			id: Math.random().toString(36).substring(7),
+			// id jangan pake random pas build statis, mending pake slug aja biar konsisten
+			id: fileName,
 			slug: fileName,
 			date: post.metadata.date || fileName,
 			title: post.metadata.title,

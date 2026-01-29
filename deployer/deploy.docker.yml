@@ -1,5 +1,5 @@
 name: WeMonitor Website
-description: Deploy WeMonitor Website to dev.atulatech.com / Static
+description: Deploy WeMonitor Website to dev.atulatech.com / Docker Swarm
 
 app:
   name: WeMonitor Website
@@ -15,12 +15,15 @@ env:
   APPNAME: wmwebsite
   TARGET_DIR: ${{ DEPLOYMENT_ENVIRONMENT == 'staging' && '$HOME/wemonitor/website' || DEPLOYMENT_ENVIRONMENT == 'production' && '$HOME/wemonitor/website' || '$HOME/wemonitor/website' }}
   REPO_URL: git@github.com:yohanespradono/wmwebsite.git
+  DOCKER_REPOSITORY: yohanesatula/wmwebsite
 
 jobs:
   Build:
     steps:
       - name: Git Clone
         run: git clone -b $BRANCH $REPO_URL $TARGET_DIR/releases/$TIMESTAMP
+      - name: Docker Build
+        run: cd $TARGET_DIR/releases/$TIMESTAMP && docker build --build-arg ENVIRONMENT=$DEPLOYMENT_ENVIRONMENT -t $DOCKER_REPOSITORY:$BRANCH .
       - name: Login to Docker Hub
         run: |
           # only for staging and production
