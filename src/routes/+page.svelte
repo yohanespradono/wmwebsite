@@ -57,7 +57,8 @@
 				</div>
 				<div class="mt-4 text-gray-500 italic">
 					# Detecting environment...<br/>
-					# Installing WeMonitor agent v1.0.4...<br/>
+					# Installing Telegraf v1.32.1...<br/>
+					# Configuring WeMonitor connector...<br/>
 					# <span class="text-green-500">Success!</span> Your node is now live.
 				</div>
 			</div>
