@@ -1,3 +1,6 @@
+<script>
+</script>
+
 <section class="relative pt-8 md:pt-16 pb-20 overflow-hidden text-center">
 	<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyan-500/10 blur-[120px] rounded-full"></div>
 
@@ -9,13 +12,14 @@
 		<h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight text-white">
 			Infrastructure Monitoring <br />
 			<span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent italic">
-        Made Easy & Smart.
-      </span>
+    with 30-Day Memory.
+  </span>
 		</h1>
 
 		<p class="text-gray-400 max-w-2xl mx-auto text-lg mb-10 leading-relaxed">
-			Ditch the complex setups. Gain full visibility over your servers and websites
-			with intelligent analytics that alert you before problems even happen.
+			Why settle for 14 days? Stop troubleshooting in the dark.
+			Get <span class="text-white font-bold border-b-2 border-cyan-500">full-month history</span>
+			over your logs and metrics, for FREE! Simple, smart, and zero-bullsh*t.
 		</p>
 
 		<div class="flex flex-wrap justify-center gap-4">
@@ -29,13 +33,52 @@
 	</div>
 </section>
 
+<section class="py-20 border-t border-white/5 bg-black/40">
+	<div class="max-w-6xl mx-auto px-6">
+		<div class="text-center mb-16">
+			<h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Don't let your data expire.</h2>
+			<p class="text-gray-400">Most free tiers delete your logs before you even find the bug.</p>
+		</div>
+
+		<div class="grid md:grid-cols-3 gap-8">
+			<div class="p-8 rounded-2xl bg-white/5 border border-white/10 opacity-60">
+				<h3 class="text-xl font-bold text-white mb-4">G***ana Cloud</h3>
+				<ul class="space-y-4 text-sm">
+					<li class="flex justify-between"><span>Retention</span> <span class="text-red-400">14 Days</span></li>
+					<li class="flex justify-between"><span>Metrics</span> <span class="text-red-400">10k Series</span></li>
+					<li class="flex justify-between"><span>Logs</span> <span class="text-red-400">50GB</span></li>
+				</ul>
+			</div>
+
+			<div class="p-8 rounded-2xl bg-cyan-500/10 border-2 border-cyan-500 relative transform md:scale-110 shadow-[0_0_50px_rgba(6,182,212,0.2)]">
+				<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-cyan-500 text-black text-[10px] font-black px-4 py-1 rounded-full uppercase">Best for Developers</div>
+				<h3 class="text-2xl font-bold text-white mb-4">WeMonitor</h3>
+				<ul class="space-y-4 text-base">
+					<li class="flex justify-between text-white font-bold"><span>Retention</span> <span class="text-cyan-400">30 Days</span></li>
+					<li class="flex justify-between"><span>Metrics</span> <span class="text-green-400">Unlimited*</span></li>
+					<li class="flex justify-between"><span>Logs</span> <span class="text-green-400">High Speed</span></li>
+					<li class="flex justify-between"><span>Setup</span> <span class="text-green-400">1-Line Bash</span></li>
+				</ul>
+			</div>
+
+			<div class="p-8 rounded-2xl bg-white/5 border border-white/10 opacity-60">
+				<h3 class="text-xl font-bold text-white mb-4">D***dog</h3>
+				<ul class="space-y-4 text-sm">
+					<li class="flex justify-between"><span>Retention</span> <span class="text-red-400">1-3 Days</span></li>
+					<li class="flex justify-between"><span>Metrics</span> <span class="text-red-400">Pay per metric</span></li>
+					<li class="flex justify-between"><span>Hidden Fees</span> <span class="text-red-400">Yes (Lots)</span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</section>
+
 <section class="py-20 bg-black/20">
 	<div class="max-w-4xl mx-auto px-6">
 		<div class="text-center mb-10">
-			<h2 class="text-3xl font-bold mb-4 text-white">Get Started in Seconds</h2>
+			<h2 class="text-3xl font-bold mb-4 text-white">One Command. No Bullsh*t.</h2>
 			<p class="text-gray-400">
-				No complex configuration files or long manuals.
-				It's as easy as running the following command:
+				We hate YAML hell just as much as you do. Connect your node in 5 seconds.
 			</p>
 		</div>
 
@@ -82,3 +125,4 @@
 		</div>
 	</div>
 </section>
+
